@@ -1,0 +1,194 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+body {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    background: url(./ee.jpg) no-repeat ;
+    align-items: center;
+    height: 100vh;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+
+}
+
+
+header  {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    padding: 20px 50px;
+    background-color: none(0, 0, 0, 0.7); 
+    text-align: right;
+    float: right;
+    align-content: flex-end;
+}
+
+.navbar{
+
+    display: flex;
+    justify-content:ri;
+    padding-right: 20px;
+    font-weight: bold;
+    text-align: right;
+}
+.logo {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    justify-content: left;
+    width: 50px; 
+    height: auto; 
+   position: absolute;
+    left:40px;
+   margin-top: auto;
+
+}
+.navbar a{
+    color: white;
+    text-align: right;
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    float: right;
+}
+
+.nav-links li {
+    display:flex ;
+   
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    float: right;
+    font-weight: 600;
+    float: right;
+}
+
+.nav-links a:hover {
+    text-decoration: none;
+    color:black;
+    float: right;
+}
+
+
+.container {
+    width: 400px;
+    height: 500px;
+    background: url(./blue.jpg) no-repeat ;
+    backdrop-filter: blur(300px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding: 20px 0;
+    font-size: 2em;
+}
+
+.form-group {
+    position: relative;
+    width: 300px;
+    margin: 20px 0;
+    border-bottom: 2px solid #fff;
+}
+.form-group input {
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    color: white;
+    padding: 0 30px 0 10px;
+}
+.form-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: white;
+    transition: 0.5s;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+    top: -5px;
+}
+
+.form-group i {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 1.2em;
+}
+
+p {
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+}
+
+p > a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+p > a:hover {
+    text-decoration: underline;
+    font-style: italic;
+}
+
+#btn {
+    width: 100%;
+    height: 50px;
+    border-radius: 40px;
+    border: none;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    transition: 0.5s;
+}
+
+#btn:hover {
+    background: rgb(68, 22, 22);
+    color: white;
+}
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; 
+    padding: 20px 50px;
+    background-color: transparent   ;
+
+    text-align: right;
+}
+
