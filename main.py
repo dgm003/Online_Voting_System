@@ -10,7 +10,7 @@ class App:
         self.main_window=tk.Tk() #creating out our main window using/in tkinter!
         self.main_window.geometry("1200x520+350+100") #Defining size of the window(1200x520) with x nd y values
 
-        self.login_button_main_window=util.get_button(self.main_window,'LOGIN',"blue",self.login)#creating login button inside the window with text LOGIN in green color which fncts login
+        self.login_button_main_window=util.get_button(self.main_window,'LOGIN',"blue",self.login)#creating login button inside the window with text LOGIN in Blue color which fncts login
         self.login_button_main_window.place(x=750,y=300)#Place of the Login button in Window
 
         self.register_button_main_window=util.get_button(self.main_window,'REGISTER NEW USER',"grey",self.register,fg="black")#fg=>Foreground
@@ -42,7 +42,7 @@ class App:
         name=output.split(',')[1][:-5]# Extract the user's name from the recognition output
 
         if name in ['unknown_person','no_persons_found']:
-            util.msg_box('OOPS!','Unknown User. Please register or try again')
+            util.msg_box('OOPS!','Unknown Admin. This page is only for Admins')
             
         else:
             util.msg_box('WELCOME BACK!!','Welcome,{}'.format(name))
@@ -90,7 +90,7 @@ class App:
         #os.path.join constructs a file path by joining self.db_dir(dir where we have saved the Image) with filename.
         #'{}.jpg'.format(name) creates a string for the filename, where {} is replaced by the value of 'name'.eg=>Dhanush.jpg
 
-        util.msg_box('SUCCESSFUL!','User Was Registered Successfully!')
+        util.msg_box('SUCCESSFUL!','Admin Was Registered Successfully!')
 
         self.register_window.destroy()
 
