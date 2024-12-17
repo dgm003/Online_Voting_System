@@ -58,25 +58,7 @@ blockchain = Blockchain()
 # Dictionary to store votes temporarily for the session
 votes = {}
 
-# Functions to Save and Load Blockchain Data
-def save_blockchain_to_file():
-    """Save blockchain data to a file."""
-    with open("blockchain_data.txt", "w") as file:
-        for block in blockchain.chain:
-            file.write(f"Index: {block.index}, Voter ID: {block.voter_id}, Vote: {block.vote}, Hash: {block.hash}\n")
-    print("Blockchain data has been saved to blockchain_data.txt.")
-
-
-def load_blockchain_from_file():
-    """Load and print blockchain data from a file."""
-    try:
-        with open("blockchain_data.txt", "r") as file:
-            data = file.read()
-            print("\nBlockchain Data from File:\n", data)
-    except FileNotFoundError:
-        print("No blockchain data file found.")
-
-# Functions to handle the voting process
+# Function to cast a vote
 def cast_vote(voter_id, party):
     """Store the vote in the blockchain and the dictionary."""
     # Check if the voter has already voted
@@ -86,16 +68,12 @@ def cast_vote(voter_id, party):
 
     # Store vote in dictionary
     votes[voter_id] = party
-    print(f"Temporary Vote Storage: {votes}")
 
     # Add the vote to the blockchain
     blockchain.add_block(voter_id, party)
+    messagebox.showinfo("Success", f"Your vote for {party} has been recorded!")
     print_blockchain()
 
-    messagebox.showinfo("Success", f"Your vote for {party} has been recorded!")
-
-    # Save blockchain data to file
-    save_blockchain_to_file()
 
 def print_blockchain():
     """Print the blockchain data to the console."""
@@ -103,96 +81,56 @@ def print_blockchain():
     for block in blockchain.chain:
         print(f"Index: {block.index}, Voter ID: {block.voter_id}, Vote: {block.vote}, Hash: {block.hash}")
 
-# Voting GUI with customtkinter
-def voting_interface(voter_id):
-    """Create the voting interface."""
-    def submit_vote():
-        selected_party = party_var.get()
-        if selected_party:
-            cast_vote(voter_id, selected_party)  # Pass voter_id here
-            root.quit()  # Close the voting interface window after submitting the vote
-        else:
-            messagebox.showerror("Error", "Please select a party to vote!")
 
+# GUI Implementation
+def create_voting_gui():
+    """Create the voting interface using CustomTkinter."""
+    def on_vote_click(party):
+        voter_id = voter_id_entry.get()
+        if not voter_id.strip():
+            messagebox.showerror("Error", "Please enter your Voter ID.")
+            return
+        cast_vote(voter_id, party)
+        close_window()
+
+    def close_window():        
+        """Close the voting window."""
+        root.destroy()
+
+    # Create the main window
     root = ctk.CTk()
-    root.title("Voting Interface")
-    root.geometry("700x700")
-    root.config(bg="#2e3b4e")
+    root.title("Online Voting System")
+    root.geometry("600x600")
 
-    # Heading Label with modern font and styling
-    heading = ctk.CTkLabel(root, text="Select a Party to Vote For", font=("Arial", 24, "bold"), text_color="#fff", anchor="center")
-    heading.pack(pady=30)
+    # Voter ID entry
+    voter_id_label = ctk.CTkLabel(root, text="Enter Voter ID:")
+    voter_id_label.pack(pady=10)
+    voter_id_entry = ctk.CTkEntry(root, width=300)
+    voter_id_entry.pack(pady=5)
 
-    party_var = ctk.StringVar(value="")
+    # Load party images
+    party_images = ["party_a.png", "party_b.png", "party_c.png", "party_d.png", "party_e.png"]
+    party_names = ["Party A", "Party B", "Party C", "Party D", "Party E"]
 
-    # Party Options with Images
-    parties = ["Party A", "Party B", "Party C", "Party D", "Party E", "Party F"]
-    party_images = ["/Users/kushagrakumar/Desktop/Online_Voting_System-main/blockchain/Party a.png", "/Users/kushagrakumar/Desktop/Online_Voting_System-main/blockchain/Party b.png", "/Users/kushagrakumar/Desktop/Online_Voting_System-main/blockchain/Party c.png", "/Users/kushagrakumar/Desktop/Online_Voting_System-main/blockchain/Party d.png", "/Users/kushagrakumar/Desktop/Online_Voting_System-main/blockchain/Party e.png", "/Users/kushagrakumar/Desktop/Online_Voting_System-main/blockchain/Party f.png"]  # Replace these with your actual image path
+    image_objects = []
+    for image_path in party_images:
+        img = Image.open(image_path).resize((100, 100))  # Resize for uniformity
+        image_objects.append(ImageTk.PhotoImage(img))
 
-    # Display each party's image and name as radio buttons
-    for i, party in enumerate(parties):
-        frame = ctk.CTkFrame(root, fg_color="#f7f7f7", width=500, height=120, corner_radius=10)
-        frame.pack(pady=15, padx=40, anchor="center")
-
-        # Load party image
-        try:
-            img = Image.open(party_images[i])  # Use Pillow to open the image
-            img = img.resize((80, 80), Image.ANTIALIAS)  # Resize the image
-            img = ImageTk.PhotoImage(img)  # Convert the image to a format compatible with tkinter
-            img_label = ctk.CTkLabel(frame, image=img, fg_color="#f0f0f0")
-            img_label.image = img  # Keep a reference to the image to prevent it from being garbage collected
-            img_label.pack(side="left", padx=20)
-
-        except Exception as e:
-            print(f"Error loading image for {party}: {e}")
-
-        # Add RadioButton for each party
-        radio_button = ctk.CTkRadioButton(frame, text=party, variable=party_var, value=party, font=("Arial", 14), fg_color="#f0f0f0", text_color="#333")
-        radio_button.pack(side="left", padx=20)
-
-    # Submit Button with a nice design
-    submit_button = ctk.CTkButton(root, text="Submit Vote", command=submit_vote, font=("Arial", 16, "bold"), fg_color="#4CAF50", text_color="white", hover_color="#45a049", corner_radius=10)
-    submit_button.pack(pady=40)
+    # Create buttons for each party
+    for i, party in enumerate(party_names):
+        button = ctk.CTkButton(
+            root,
+            image=image_objects[i],
+            text=party,
+            compound="top",
+            command=lambda p=party: on_vote_click(p)
+        )
+        button.pack(pady=10)
 
     root.mainloop()
+    root.destroy()
 
-# Voter ID Login GUI
-def voter_login():
-    """Create the login window to get the voter ID."""
-    def login():
-        voter_id = voter_id_entry.get()
-        if voter_id:
-            # Validate the Voter ID (example: check if it's in a list of valid IDs)
-            if voter_id == "valid_voter_id":  # You can replace this with actual validation logic
-                voting_interface(voter_id)  # Pass the voter ID to the voting interface
-                login_window.quit()  # Close the login window after successful login
-            else:
-                messagebox.showerror("Error", "Invalid Voter ID!")
-        else:
-            messagebox.showerror("Error", "Please enter a Voter ID.")
-
-    # Create Login Window
-    login_window = ctk.CTk()
-    login_window.title("Voter Login")
-    login_window.geometry("400x300")
-    login_window.config(bg="#2e3b4e")
-
-    # Voter ID Label and Entry
-    voter_id_label = ctk.CTkLabel(login_window, text="Enter Voter ID", font=("Arial", 16), text_color="#fff")
-    voter_id_label.pack(pady=20)
-
-    voter_id_entry = ctk.CTkEntry(login_window, font=("Arial", 14))
-    voter_id_entry.pack(pady=10)
-
-    # Login Button
-    login_button = ctk.CTkButton(login_window, text="Login", command=login, font=("Arial", 16, "bold"), fg_color="#4CAF50", text_color="white", hover_color="#45a049", corner_radius=10)
-    login_button.pack(pady=20)
-
-    login_window.mainloop()
-
-# Main Program (Start the login window)
-def main():
-    voter_login()
 
 if __name__ == "__main__":
-    main()
+    create_voting_gui()
