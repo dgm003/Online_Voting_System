@@ -69,6 +69,10 @@ def cast_vote(voter_id, party):
     # Store vote in dictionary
     votes[voter_id] = party
 
+    # Writing the voter ID and vote to a file
+    with open("voting_data.txt", "a") as file:
+        file.write(f"Voter ID: {voter_id}, Vote: {party}\n")
+
     # Add the vote to the blockchain
     blockchain.add_block(voter_id, party)
     messagebox.showinfo("Success", f"Your vote for {party} has been recorded!")
