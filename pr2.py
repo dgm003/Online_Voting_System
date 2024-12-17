@@ -5,6 +5,7 @@ from PIL import Image
 import random
 import sys  # To get command line arguments
 import time
+import subprocess
 
 # OTP Verifier Class
 class OTPVerifier(CTk):
@@ -18,7 +19,7 @@ class OTPVerifier(CTk):
 
         # Twilio Client Setup
         self.phone_number = phone_number
-        self.client = Client("ACef3aa4c166a4733e1ab860d89cb8f949", "cbecf140bafc31772f3539b658f41d5b")
+        self.client = Client("ACef3aa4c166a4733e1ab860d89cb8f949", "f0dad893d6e3cc344f161e844ba70542")
         self.otp = self.generate_OTP()
         self.send_OTP()  # Send OTP when the GUI starts
 
@@ -30,42 +31,42 @@ class OTPVerifier(CTk):
 
     def create_layout(self):
         # Top Background Image (fluid_1)
-        fluid1_img = CTkImage(Image.open("fluid_1.png"), size=(1000, 180))
+        fluid1_img = CTkImage(Image.open("fluid_1.png"), size=(1000, 200))
         self.top_image = CTkLabel(self, image=fluid1_img, text="")
         self.top_image.place(x=0, y=0)
 
         # Cast Vote Image
-        otp4_img = CTkImage(Image.open("otp4.png"), size=(300, 180))
+        otp4_img = CTkImage(Image.open("otp4.png"), size=(300, 300))
         self.otp4_label = CTkLabel(self, image=otp4_img, text="")
-        self.otp4_label.place(x=400, y=0)
+        self.otp4_label.place(x=700, y=200)
 
         # otp Image
-        otp3_img = CTkImage(Image.open("otp3.jpg"), size=(300, 180))
+        otp3_img = CTkImage(Image.open("otp3.jpg"), size=(300, 200))
         self.otp3_label = CTkLabel(self, image=otp3_img, text="")
-        self.otp3_label.place(x=650, y=200)
+        self.otp3_label.place(x=0, y=200)
 
         # "Verify OTP" Text
         title_font = CTkFont(family="Times New Roman", size=28, weight="bold")
         self.title_label = CTkLabel(self, text="VERIFY OTP", font=title_font, text_color="red")
-        self.title_label.place(x=100, y=200)
+        self.title_label.place(x=420, y=200)
 
         # OTP Entry
         self.otp_entry = CTkEntry(self, placeholder_text="Enter your OTP", width=300, height=40, font=("Calibri", 16))
-        self.otp_entry.place(x=50, y=250)
+        self.otp_entry.place(x=350, y=250)
 
         # Timer Label
         self.timer_label = CTkLabel(self, text="00:30", font=("Calibri", 20), text_color="black")
-        self.timer_label.place(x=90, y=300)
+        self.timer_label.place(x=470, y=300)
 
         # Submit Button
         self.submit_button = CTkButton(self, text="SUBMIT", width=200, height=40, fg_color="black",
                                        text_color="white", command=self.check_OTP)
-        self.submit_button.place(x=90, y=350)
+        self.submit_button.place(x=400, y=350)
 
         # Resend OTP Button
         self.resend_button = CTkButton(self, text="RESEND OTP", width=200, height=40, fg_color="black",
                                        text_color="white", command=self.resend_OTP)
-        self.resend_button.place(x=90, y=400)
+        self.resend_button.place(x=400, y=400)
 
         # Bottom Background Image (fluid_2)
         fluid2_img = CTkImage(Image.open("fluid_2.png"), size=(1000, 130))
@@ -102,6 +103,8 @@ class OTPVerifier(CTk):
         if user_input == str(self.otp):
             messagebox.showinfo("Success", "OTP Verification Successful!")
             self.otp = None  # Invalidate OTP after use
+            subprocess.Popen(["python","voting_system.py"],shell=True)
+            self.destroy()
         else:
             messagebox.showerror("Error", "Invalid OTP. Please try again.")
 
