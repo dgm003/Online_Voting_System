@@ -53,14 +53,21 @@ Run the Application
 📂 Project Structure
 
 📦 Secure-Voting
+
 ├── voter.py                # Main GUI and backend logic
+
 ├── blockchain.py           # Simple blockchain implementation
+
 ├── face_dataset/           # Stores registered face images
+
 ├── trained_model.yml       # Face recognizer model file
+
 ├── templates/
 │   └── index.html          # Home landing page
+
 ├── static/
 │   └── style.css           # Styling for the frontend
+
 └── README.md
 
 📸 Screenshots
