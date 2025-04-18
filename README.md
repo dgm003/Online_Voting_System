@@ -95,6 +95,4 @@ Run the Application
 
 👨‍💻 Authors
 
-    Dhanush G M – GitHub
-
-    Team Members – Kushagra, Jayanth, Abhijit
+    Team Members – Dhanush G M, Kushagra, Jayanth, Abhijit
